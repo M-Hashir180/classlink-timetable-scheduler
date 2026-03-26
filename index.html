@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClassLink – Smart Timetable Agent</title>
+  <meta name="description"
+    content="Upload your university timetable and instantly get Google Meet join links for each class." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🎓</span>
+      <div>
+        <span class="logo-title">ClassLink</span>
+        <span class="logo-sub">Smart Timetable Agent</span>
+      </div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-btn active" id="tab-setup" onclick="showTab('setup')">⚙️ Setup</button>
+      <button class="nav-btn" id="tab-dashboard" onclick="showTab('dashboard')">📅 Dashboard</button>
+    </div>
+    <div class="clock-wrap">
+      <div id="live-clock" class="live-clock">--:--:--</div>
+      <div id="live-date" class="live-date">---</div>
+    </div>
+  </header>
+
+  <!-- ===== SETUP TAB ===== -->
+  <main id="page-setup" class="page active">
+    <div class="setup-container">
+
+      <!-- Upload Card -->
+      <div class="card upload-card">
+        <div class="card-icon">📸</div>
+        <h2>Upload Timetable Image</h2>
+        <p>Take a screenshot or photo of your university timetable and upload it here.</p>
+
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept="image/*" style="display:none"
+            onchange="handleImageUpload(event)" />
+          <div id="upload-placeholder">
+            <span class="upload-icon">🖼️</span>
+            <p>Click to upload or drag & drop</p>
+            <span class="upload-hint">PNG, JPG, WEBP supported</span>
+          </div>
+          <img id="preview-img" class="preview-img" style="display:none" alt="Timetable preview" />
+        </div>
+
+        <button class="btn-primary" id="parse-btn" onclick="parseTimetable()" disabled>
+          <span id="parse-btn-text">🤖 Analyse Timetable with AI</span>
+          <span id="parse-spinner" class="spinner" style="display:none"></span>
+        </button>
+      </div>
+
+      <!-- Status / Error -->
+      <div id="status-box" class="status-box" style="display:none"></div>
+
+    </div>
+  </main>
+
+  <!-- ===== DASHBOARD TAB ===== -->
+  <main id="page-dashboard" class="page">
+
+    <div class="dashboard-toolbar">
+      <div class="day-filter">
+        <button class="day-pill active" id="pill-all" onclick="filterDay('all')">All Week</button>
+        <button class="day-pill" id="pill-Mon" onclick="filterDay('Mon')">Mon</button>
+        <button class="day-pill" id="pill-Tue" onclick="filterDay('Tue')">Tue</button>
+        <button class="day-pill" id="pill-Wed" onclick="filterDay('Wed')">Wed</button>
+        <button class="day-pill" id="pill-Thu" onclick="filterDay('Thu')">Thu</button>
+        <button class="day-pill" id="pill-Fri" onclick="filterDay('Fri')">Fri</button>
+      </div>
+      <button class="btn-outline" onclick="showTab('setup')">↩ Re-upload</button>
+    </div>
+
+    <div id="schedule-grid" class="schedule-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <div id="empty-state" class="empty-state" style="display:none">
+      <span>🗂️</span>
+      <p>No timetable loaded yet.<br />Go to <strong>Setup</strong> and upload your timetable image.</p>
+      <button class="btn-primary" onclick="showTab('setup')">Go to Setup</button>
+    </div>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+
+</html>
